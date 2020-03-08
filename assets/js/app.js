@@ -1,23 +1,26 @@
-var gifs = ["owls", "cats", "bats", "rabbits"];
+var gifs = ["earth", "mars", "jupiter", "saturn", "mercury", "venus", "neptune", "uranus", "pluto"];
+
+$(document).on("click", ".btn btn-secondary btn-lg", displayGIFInfo);
 
 function displayGIFInfo() {
     var gif = $(this).attr("data-name");
 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=Wpqlo4Ez5UTppNABHdFvBYO6eCXGyhQr&q=" + gif + "&limit=25&offset=0&rating=G&lang=en"
+    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=Wpqlo4Ez5UTppNABHdFvBYO6eCXGyhQr&tag=" + gif + "&rating=PG"
 
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function (data) {
+    }).then(function (q) {
+        console.log(q)
         var gifDiv = $("<div class='gif'>");
 
-        var rating = data.rating;
+        var rating = q.rating;
 
         var pOne = $("<p>").text("Rating: " + rating);
 
         gifDiv.append(pOne);
 
-        var imgURL = data.url; 
+        var imgURL = q.url; 
 
         var pTwo = $("<p>").text("URL: " + url);
 
@@ -52,6 +55,6 @@ $("#add-gif").on("click", function (event) {
     renderButtons();
 });
 
-$(document).on("click", ".btn btn-secondary btn-lg", displayGIFInfo);
+
 
 renderButtons();
