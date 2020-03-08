@@ -1,60 +1,67 @@
-var gifs = ["earth", "mars", "jupiter", "saturn", "mercury", "venus", "neptune", "uranus", "pluto"];
-
-$(document).on("click", ".btn btn-secondary btn-lg", displayGIFInfo);
+var gifs = ['earth', 'mars', 'jupiter', 'saturn', 'mercury', 'venus', 'neptune', 'uranus', 'pluto'];
 
 function displayGIFInfo() {
-    var gif = $(this).attr("data-name");
+	//JOE ADD - TINKERED WITH THE CALL
+	var limit = 20;
+	var gif = $(this).attr('data-name');
+	let queryURL = `https://api.giphy.com/v1/gifs/search?q=${gif}&limit=${limit}&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9`;
 
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=Wpqlo4Ez5UTppNABHdFvBYO6eCXGyhQr&tag=" + gif + "&rating=PG"
+	// var queryURL =
+	// 	'https://api.giphy.com/v1/gifs/search?=' + gif + '&rating=PG&api_key=Wpqlo4Ez5UTppNABHdFvBYO6eCXGyhQr&tag';
 
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (q) {
-        console.log(q)
-        var gifDiv = $("<div class='gif'>");
+	$.ajax({
+		url: queryURL,
+		method: 'GET',
+	}).then(function(q) {
+		//JOE ADD
+		let results = q.data;
+		console.log(results);
 
-        var rating = q.rating;
+		for (let i = 0; i < results.length; i++) {
+			var gifDiv = $("<div class='gif'>");
 
-        var pOne = $("<p>").text("Rating: " + rating);
+			var rating = results[i].rating;
 
-        gifDiv.append(pOne);
+			var pOne = $('<p>').text('Rating: ' + rating);
 
-        var imgURL = q.url; 
+			gifDiv.append(pOne);
 
-        var pTwo = $("<p>").text("URL: " + url);
+			var imgURL = results[i].url;
 
-        gifDiv.append(pTwo);
+			var pTwo = $('<p>').text('URL: ' + imgURL);
 
-        var image = $("<img>").attr("src", imgURL);
+			gifDiv.append(pTwo);
 
-        gifDiv.append(image);
+			var image = $('<img>').attr('src', imgURL);
 
-        $("#gif-view").prepend(gifDiv);
-    });
-
-};
-
-function renderButtons() {
-
-    $("#buttons-view").empty();
-
-    for (var i = 0; i < gifs.length; i++) {
-        var a = $("<button>");
-        a.addClass("btn btn-secondary btn-lg");
-        a.attr("data-name", gifs[i]);
-        a.text(gifs[i]);
-        $("#buttons-view").append(a);
-    }
+			gifDiv.append(image);
+			//JOE NOTE - YOUR DIV ON HTML IS A CLASS, NOT AN ID
+			$('.gif-view').prepend(gifDiv);
+		}
+	});
 }
 
-$("#add-gif").on("click", function (event) {
-    event.preventDefault();
-    var giphy = $("#gif-input").val().trim();
-    gifs.push(giphy);
-    renderButtons();
+function renderButtons() {
+	$('#buttons-view').empty();
+
+	for (var i = 0; i < gifs.length; i++) {
+		var a = $('<button>');
+		a.addClass('btn btn-secondary btn-lg');
+		a.attr('data-name', gifs[i]);
+		a.text(gifs[i]);
+		$('#buttons-view').append(a);
+	}
+	//I MOVED YOUR CLICK HANDLER HERE SO THEY WOULD ACTUALLY SEE RENDERED BUTTONS
+	$('.btn').click(displayGIFInfo);
+}
+
+$('#add-gif').on('click', function(event) {
+	event.preventDefault();
+	var giphy = $('#gif-input')
+		.val()
+		.trim();
+	gifs.push(giphy);
+	renderButtons();
 });
-
-
 
 renderButtons();
