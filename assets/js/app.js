@@ -2,7 +2,7 @@ var gifs = ['earth', 'mars', 'jupiter', 'saturn', 'mercury', 'venus', 'neptune',
 
 function displayGIFInfo() {
 	//JOE ADD - TINKERED WITH THE CALL
-	var limit = 20;
+	var limit = 10;
 	var gif = $(this).attr('data-name');
 	let queryURL = `https://api.giphy.com/v1/gifs/search?q=${gif}&limit=${limit}&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9`;
 
@@ -22,21 +22,21 @@ function displayGIFInfo() {
 
 			var rating = results[i].rating;
 
-			var pOne = $('<p>').text('Rating: ' + rating);
+			var pOne = $("<p>").text("Rating: " + rating);
 
 			gifDiv.append(pOne);
 
 			var imgURL = results[i].url;
 
-			var pTwo = $('<p>').text('URL: ' + imgURL);
+			var pTwo = $("<p>").text("URL: " + imgURL);
 
 			gifDiv.append(pTwo);
 
-			var image = $('<img>').attr('src', imgURL);
+			var image = $("<img class= 'image'>").attr('src', results[i].images.fixed_height_small_still.url);
 
 			gifDiv.append(image);
 			//JOE NOTE - YOUR DIV ON HTML IS A CLASS, NOT AN ID
-			$('.gif-view').prepend(gifDiv);
+			$(".gif-view").prepend(gifDiv);
 		}
 	});
 }
@@ -63,5 +63,15 @@ $('#add-gif').on('click', function(event) {
 	gifs.push(giphy);
 	renderButtons();
 });
+
+$(".gif-view").on("click", function(event) {
+   var src = $(this).attr("src");
+   if($(this).hasClass('playing')) {
+    $(this).removeClass('playing');
+   } else {
+    $(this).addClass('playing');
+   }
+});
+
 
 renderButtons();
