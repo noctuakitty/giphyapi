@@ -32,13 +32,25 @@ function displayGIFInfo() {
 
 			gifDiv.append(pTwo);
 
-			var image = $("<img class= 'image'>").attr('src', results[i].images.fixed_height_small_still.url);
-
+            var image = $("<img class= 'image'>").attr('src', results[i].images.fixed_height_small_still.url);
+            image.attr("still-image-state",  results[i].images.fixed_height_small_still.url);
+            image.attr("moving-image-state", results[i].images.fixed_height_small.url);
+            
 			gifDiv.append(image);
 			//JOE NOTE - YOUR DIV ON HTML IS A CLASS, NOT AN ID
-			$(".gif-view").prepend(gifDiv);
-		}
-	});
+            $(".gif-view").prepend(gifDiv);
+            
+            
+            
+        }
+
+    });
+    
+    $(".image").on("click", function(event) {
+        event.preventDefault();
+      image.attr("src", image.attr("moving-image-state") );  
+    });
+
 }
 
 function renderButtons() {
@@ -64,14 +76,9 @@ $('#add-gif').on('click', function(event) {
 	renderButtons();
 });
 
-$(".gif-view").on("click", function(event) {
-   var src = $(this).attr("src");
-   if($(this).hasClass('playing')) {
-    $(this).removeClass('playing');
-   } else {
-    $(this).addClass('playing');
-   }
-});
+$(document).on("click", ".image", displayGIFInfo);
+
+    
 
 
 renderButtons();
