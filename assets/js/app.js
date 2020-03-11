@@ -45,10 +45,9 @@ function displayGIFInfo() {
         }
 
     });
-    
-    $(".image").on("click", function(event) {
-        event.preventDefault();
-      image.attr("src", image.attr("moving-image-state") );  
+    $(document).on("click", ".image", displayGIFInfo);
+    $(this).attr("moving-image-state");
+   
     });
 
 }
@@ -76,7 +75,7 @@ $('#add-gif').on('click', function(event) {
 	renderButtons();
 });
 
-$(document).on("click", ".image", displayGIFInfo);
+
 
     
 
