@@ -40,13 +40,12 @@ function displayGIFInfo() {
 			//JOE NOTE - YOUR DIV ON HTML IS A CLASS, NOT AN ID
             $(".gif-view").prepend(gifDiv);
             
+            
+            
         }
 
     });
     
-
-    
-
 }
 
 function renderButtons() {
@@ -72,13 +71,7 @@ $('#add-gif').on('click', function(event) {
 	renderButtons();
 });
 
-$(document).on("click", ".image", ready);
-
-function ready () {
-    $(".image").on("click", function() {
-      image.attr("src", image.attr("moving-image-state"));  
-    });
-}
-ready();
+$(document).on("click", ".image", displayGIFInfo);
+    $(this).attr("moving-image-state");
 
 renderButtons();
