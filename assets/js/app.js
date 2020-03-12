@@ -34,7 +34,8 @@ function displayGIFInfo() {
 
             var image = $("<img class= 'image'>").attr('src', results[i].images.fixed_height_small_still.url);
             image.attr("still-image-state",  results[i].images.fixed_height_small_still.url);
-            image.attr("moving-image-state", results[i].images.fixed_height_small.url);
+			image.attr("moving-image-state", results[i].images.fixed_height_small.url);
+			image.attr("state", "still");
             
 			gifDiv.append(image);
 			//JOE NOTE - YOUR DIV ON HTML IS A CLASS, NOT AN ID
@@ -71,7 +72,24 @@ $('#add-gif').on('click', function(event) {
 	renderButtons();
 });
 
-$(document).on("click", ".image", displayGIFInfo);
-    $(this).attr("moving-image-state");
+$(document).on("click", ".image", function () {
+
+	console.log($(this).attr("src"));
+	console.log($(this).attr("still-image-state"));
+	console.log($(this).attr("moving-image-state"));
+	console.log($(this).attr("state"));
+	if($(this).attr("state")==="still") {
+		$(this).attr("src", $(this).attr("moving-image-state"));
+		$(this).attr("state", "moving");
+	} else {
+		$(this).attr("src", $(this).attr("still-image-state"));
+		$(this).attr("state", "still");
+	}
+
+});
 
 renderButtons();
+
+// image.attr("still-image-state",  results[i].images.fixed_height_small_still.url);
+// image.attr("moving-image-state", results[i].images.fixed_height_small.url);
+// image.attr("state", "still");
